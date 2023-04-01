@@ -1,3 +1,14 @@
+# Steps to follow
+# What you need to do:
+# Copy script to your note editor in linux and save as "extract_words.py" 
+# Change mode to executable
+# Then copy a job description and paste it in another text file e.g "input.txt"
+# Run this syntex on your terminal
+
+# python extract_words.py input.txt output.txt
+# Give any file name you want to save the output. e.g "output.txt"
+
+
 import argparse
 
 # create argument parser
