@@ -57,4 +57,5 @@ Using Jupyter Notebook allows you to execute the script and view the output with
 Remember to install any required dependencies, such as the difflib package, before running the script in the notebook
 
 
-If you encounter any errors or need further assistance, please let me know at sanwajcyber@gmail.com
+If you encounter any errors or need further assistance, please let me know at https://www.linkedin.com/in/saniawajid/
+
