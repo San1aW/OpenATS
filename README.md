@@ -35,6 +35,7 @@ Once Python 3 is installed, you can proceed with running the script as described
 
 
 ########### **IF you have Jupyter Notebook**  ########################
+
 Open Jupyter Notebook by running the command jupyter notebook in your terminal.
 
 This will open a web browser with the Jupyter Notebook interface.
