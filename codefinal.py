@@ -1,54 +1,40 @@
-# Steps to follow
-# What you need to do:
-# Copy script to your note editor in linux and save as "extract_words.py" 
-# Change mode to executable
-# Then copy a job description and paste it in another text file e.g "input.txt"
-# Run this syntex on your terminal
 
-# python extract_words.py input.txt output.txt
-# Give any file name you want to save the output. e.g "output.txt"
+import os
+from difflib import SequenceMatcher
 
+def read_text(file_path):
+    """
+    Read and extract text from a text file.
+    """
+    with open(file_path, 'r') as file:
+        text = file.read()
+    return text
 
-import argparse
+def calculate_similarity(text1, text2):
+    """
+    Calculate the similarity score between two texts using the SequenceMatcher ratio.
+    """
+    matcher = SequenceMatcher(None, text1, text2)
+    return matcher.ratio()
 
-# create argument parser
-parser = argparse.ArgumentParser(description="Extract words from a text file")
+def compare_resume_and_job_description(resume_path, job_description_path):
+    """
+    Compare the similarity between a resume and a job description.
+    """
+    resume_text = read_text(resume_path)
+    job_description_text = read_text(job_description_path)
 
-# add input file argument
-parser.add_argument("input_file", help="Path to input file")
+    similarity_score = calculate_similarity(resume_text, job_description_text)
+    similarity_percentage = similarity_score * 100
+    return similarity_percentage
 
-# add output file argument
-parser.add_argument("output_file", help="Path to output file")
+if __name__ == '__main__':
+    resume_path = input("Enter the full path of your resume file: ")
+    job_description_path = input("Enter the full path of the job description file: ")
 
-# parse command line arguments
-args = parser.parse_args()
+    if not os.path.isfile(resume_path) or not os.path.isfile(job_description_path):
+        print("Failed to find resume or job description files.")
+    else:
+        score = compare_resume_and_job_description(resume_path, job_description_path)
+        print(f"Similarity Score: {score:.2f}%")
 
-# read in file and convert all text to lowercase
-with open(args.input_file, "r") as f:
-    text = f.read().lower()
-
-# remove all special characters and split text into words
-words = [word for word in text if word.isalnum() or word.isspace()]
-words = "".join(words).split()
-
-# remove conjunctions, prepositions, and helping verbs from the list of words
-conjunctions = ["and", "or", "but", "if", "then", "else", "when", "where", "that", "this", "these", "those", "not"]
-prepositions = ["with", "at", "from", "into", "during", "including", "until", "against", "among", "throughout", "despite", "towards", "upon", "concerning", "of", "to", "in", "for", "on", "by", "with", "about", "like", "through", "over", "before", "between", "after", "since", "without", "under", "within", "along", "following", "across", "behind", "beyond", "plus", "except", "but", "up", "out", "around", "down", "off", "above", "near"]
-helping_verbs = ["am", "is", "are", "was", "were", "be", "being", "been", "have", "has", "had", "do", "does", "did", "will", "shall", "should", "would", "may", "might", "must", "can", "could"]
-words = [word for word in words if word not in conjunctions and word not in prepositions and word not in helping_verbs]
-
-# remove duplicates from the list of words
-words = list(set(words))
-
-# write the words to the output file
-with open(args.output_file, "w") as f:
-    f.write(" ".join(words))
-
-# print out the list of words in a grid format
-n = len(words)
-m = (n + 2) // 3  # calculate number of rows
-for i in range(m):
-    row = [words[j] if j < n else "" for j in range(i, n, m)]
-    num_cols = min(len(row), 3)
-    format_str = "".join(["{:<20}"] * num_cols)
-    print(format_str.format(*row[:num_cols]))
